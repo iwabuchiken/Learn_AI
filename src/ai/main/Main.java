@@ -29,26 +29,6 @@ public class Main {
 					Thread.currentThread().getStackTrace()[1].getFileName(),
 					Thread.currentThread().getStackTrace()[1].getLineNumber());
 		
-//		//test
-//		Object[] o = new Object[3];
-//		HashSet<Object> h = new HashSet<Object>();
-//		
-//		TreeSet<Integer> s1 = new TreeSet<Integer>();
-//		TreeSet<Integer> s2 = new TreeSet<Integer>();
-//		
-//		s1.add(6);
-//		s2.add(6);
-//		s2.add(2);
-//		
-//		h.add(s1);
-//		boolean res = h.contains(s2);
-//		
-//		message = "res => " + res;
-//		Methods.message(message, Thread.currentThread().getStackTrace()[1]
-//				.getFileName(), Thread.currentThread().getStackTrace()[1]
-//				.getLineNumber());
-		
-		
 	}
 
 	private static void _D_2_v_1__Test_Sets() {
@@ -81,7 +61,8 @@ public class Main {
 		// get_Pairs(Gene[] genes_0)
 
 		////////////////////////////////
-		Pair[] pairs = Ops.get_Pairs_v4(genes_0, CONS.Admin.INITIAL_NUM);
+		Pair[] pairs = Ops.get_Pairs_V_1_2_1(genes_0, CONS.Admin.INITIAL_NUM);
+//		Pair[] pairs = Ops.get_Pairs_v4(genes_0, CONS.Admin.INITIAL_NUM);
 //		Pair pair = Ops.get_Pairs_v3(genes_0);
 //		Pair pair = Ops.get_Pairs(genes_0);
 
