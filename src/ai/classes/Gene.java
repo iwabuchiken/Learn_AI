@@ -9,9 +9,11 @@ public class Gene {
 	int		gen;		// Xth generation
 						// Initial generation => 0
 	
+	int		id;			// in-generation serial number
+	
 	int		num_of_bits = CONS.Admin.NUM_OF_BITS;
 
-	float	adaptability;
+	int	adaptability;
 	
 	public int[] getBits() {
 		return bits;
@@ -37,12 +39,20 @@ public class Gene {
 		this.num_of_bits = num_of_bits;
 	}
 
-	public float getAdaptability() {
+	public int getAdaptability() {
 		return adaptability;
 	}
 
-	public void setAdaptability(float adaptability) {
+	public void setAdaptability(int adaptability) {
 		this.adaptability = adaptability;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	
