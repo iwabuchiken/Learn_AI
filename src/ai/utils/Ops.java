@@ -511,6 +511,241 @@ public class Ops {
 		return null;
 	}
 	
+	public static Pair[]
+	get_Pairs_V_1_3_0
+	(Gene[] genes, int num_of_pairs) {
+		// TODO Auto-generated method stub
+//		int[] pickArray = Ops.get_Pick_Array(genes);
+		
+//		Pair[] pairs = new Pair[num_of_pairs];
+		
+		List<TreeSet> pairId_set = Ops.get_PairIds_V_1_2_1(genes, num_of_pairs);
+//		HashSet<TreeSet> pairId_set = Ops.get_PairIds_v2(genes, num_of_pairs);
+//		List<TreeSet> pairId_set = Ops.get_PairIds_v2(genes, num_of_pairs);
+		
+		String message = String.format("pairId_set.size() => %d", pairId_set.size());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+						.getLineNumber());
+		
+		////////////////////////////////
+		
+		// Show: ids
+		
+		////////////////////////////////
+		int counter = 1;
+		
+		for (TreeSet tSet : pairId_set) {
+			
+			Object[] tSet_Array = tSet.toArray();
+			
+			message = String.format("pairId_set:%d => %d, %d", 
+					counter, (int) tSet_Array[0], (int) tSet_Array[1]);
+			
+			Methods.message(message, Thread.currentThread().getStackTrace()[1]
+					.getFileName(), Thread.currentThread().getStackTrace()[1]
+							.getLineNumber());
+			
+			counter ++;
+			
+		}
+		
+		////////////////////////////////
+
+		// Pairs
+
+		////////////////////////////////
+		Pair[] pairs = Ops.build_Pairs_From_PairIds_V_1_3_0(genes, pairId_set);
+		
+		if (pairs != null) {
+			
+			message = String.format("pairs.length => %d", pairs.length);
+			Methods.message(message,
+					Thread.currentThread().getStackTrace()[1].getFileName(),
+					Thread.currentThread().getStackTrace()[1].getLineNumber());
+			
+			Ops.show_Pairs(pairs);
+			
+//			Pair p = pairs[0];
+//			Gene g = p.getA();
+//			
+//			Pair p2 = pairs[2];
+//			Gene g2 = p2.getA();
+//			
+//			message = String.format(
+//							"pairs[0].getA().getId() => %d", 
+//							g.getId());
+//			Methods.message(message,
+//					Thread.currentThread().getStackTrace()[1].getFileName(),
+//					Thread.currentThread().getStackTrace()[1].getLineNumber());
+//			
+//			message = String.format(
+//					"pairs[2].getA().getId() => %d", 
+//					g2.getId());
+//			Methods.message(message,
+//					Thread.currentThread().getStackTrace()[1].getFileName(),
+//					Thread.currentThread().getStackTrace()[1].getLineNumber());
+			
+			
+			
+		} else {
+			
+			message = String.format("pairs => null");
+			Methods.message(message,
+					Thread.currentThread().getStackTrace()[1].getFileName(),
+					Thread.currentThread().getStackTrace()[1].getLineNumber());
+
+		}
+		
+		
+//		////////////////////////////////
+//		
+//		// test
+//		
+//		////////////////////////////////
+//		List<TreeSet> list = new ArrayList<TreeSet>();
+//		
+//		TreeSet<Integer> s1 = new TreeSet<Integer>();		
+//		TreeSet<Integer> s2 = new TreeSet<Integer>();
+//		
+//		s1.add(6); s1.add(2);
+//		s2.add(2); s2.add(6);
+//		
+//		list.add(s1);
+//		
+//		boolean res = list.contains(s2);
+//		
+//		message = String.format("list.contains(s2) => %s", res);
+//		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+//				.getFileName(), Thread.currentThread().getStackTrace()[1]
+//						.getLineNumber());
+//		
+		
+//		////////////////////////////////
+//		
+//		// Show: ids
+//		
+//		////////////////////////////////
+//		for (int i = 0; i < pairId_set.size(); i++) {
+//			
+//			TreeSet<Integer> s = pairId_set.get(i);
+//			
+//			Object[] s_Array = s.toArray();
+//			
+//			message = String.format("pairId_set.get(%d) => %d, %d", 
+//					i, (int) s_Array[0], (int) s_Array[1]);
+//			
+//			Methods.message(message, Thread.currentThread().getStackTrace()[1]
+//					.getFileName(), Thread.currentThread().getStackTrace()[1]
+//							.getLineNumber());
+//			
+//		}//for (int i = 0; i < pairId_set.size(); i++)
+//		
+		
+		////////////////////////////////
+		
+		// Get: sets
+		
+		////////////////////////////////
+//		Set<Integer> s1 = (Set<Integer>) pair_Ids[0];
+//		Set<Integer> s2 = (Set<Integer>) pair_Ids[1];
+//		
+//		Object[] ids_A = s1.toArray();
+//		Object[] ids_B = s2.toArray();
+//		
+//		////////////////////////////////
+//		
+//		// Get: genes
+//		
+//		////////////////////////////////
+//		Gene gA_A = genes[(int) ids_A[0]];
+//		Gene gA_B = genes[(int) ids_A[1]];
+//		
+//		Gene gB_A = genes[(int) ids_B[0]];
+//		Gene gB_B = genes[(int) ids_B[1]];
+//		
+//		////////////////////////////////
+//		
+//		// Set: pair
+//		
+//		////////////////////////////////
+//		Pair pA = new Pair();
+//		
+//		pA.setA(gA_A);
+//		pA.setB(gA_B);
+//		
+//		Pair pB = new Pair();
+//		
+//		pB.setA(gB_A);
+//		pB.setB(gB_B);
+		
+		return null;
+		
+	}//get_Pairs_V_1_3_0
+	
+	private static void show_Pairs(Pair[] pairs) {
+		// TODO Auto-generated method stub
+		int len = pairs.length;
+		
+		for (int i = 0; i < pairs.length; i++) {
+			
+			Pair p = pairs[i];
+			Gene gA = p.getA();
+			Gene gB = p.getB();
+
+			StringBuilder sbA = new StringBuilder();
+			StringBuilder sbB = new StringBuilder();
+			
+			int j = 0;
+			for ( ; j < CONS.Admin.NUM_OF_BITS - 1; j++) {
+				
+				sbA.append(gA.getBits()[j]);
+				sbA.append(",");
+				
+				sbB.append(gB.getBits()[j]);
+				sbB.append(",");
+				
+			}
+
+			sbA.append(gA.getBits()[j]);
+			sbB.append(gB.getBits()[j]);
+			
+			sbA.append(" : " + gA.getAdaptability());
+			sbB.append(" : " + gB.getAdaptability());
+			
+			
+			String message = String.format(
+					"pairs[%d]: Gene.A.id = %d (%s) / Gene.B.id = %d (%s)", 
+					i, gA.getId(), sbA.toString(), gB.getId(), sbB.toString());
+			
+			Methods.message(message,
+			Thread.currentThread().getStackTrace()[1].getFileName(),
+			Thread.currentThread().getStackTrace()[1].getLineNumber());
+	
+		}
+		
+//		Pair p = pairs[0];
+//		Gene g = p.getA();
+//		
+//		Pair p2 = pairs[2];
+//		Gene g2 = p2.getA();
+//		
+//		message = String.format(
+//						"pairs[0].getA().getId() => %d", 
+//						g.getId());
+//		Methods.message(message,
+//				Thread.currentThread().getStackTrace()[1].getFileName(),
+//				Thread.currentThread().getStackTrace()[1].getLineNumber());
+//		
+//		message = String.format(
+//				"pairs[2].getA().getId() => %d", 
+//				g2.getId());
+//		Methods.message(message,
+//				Thread.currentThread().getStackTrace()[1].getFileName(),
+//				Thread.currentThread().getStackTrace()[1].getLineNumber());
+		
+	}
+
 	public static Pair get_Pairs_v2(Gene[] genes) {
 		// TODO Auto-generated method stub
 		int[] pickArray = Ops.get_Pick_Array(genes);
@@ -824,5 +1059,32 @@ public class Ops {
 //		return tSet;
 		
 	}//get_PairIds(Gene[] genes)
-	
+
+	public static Pair[]
+	build_Pairs_From_PairIds_V_1_3_0
+	(Gene[] genes, List<TreeSet> pairId_set) {
+		
+		Pair[] pairs = new Pair[pairId_set.size()];
+		
+		for (int i = 0; i < pairId_set.size(); i++) {
+			
+			TreeSet<Integer> s = pairId_set.get(i);
+			
+			Object[] id_Ary = s.toArray();
+			
+			Gene gA = genes[(int) id_Ary[0]];
+			Gene gB = genes[(int) id_Ary[1]];
+			
+			pairs[i] = new Pair();
+			
+			pairs[i].setA(gA);
+			pairs[i].setB(gB);
+			
+		}
+		
+		
+		
+		return pairs;
+		
+	}
 }//public class Ops

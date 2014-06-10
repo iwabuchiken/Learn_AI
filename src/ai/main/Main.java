@@ -61,7 +61,8 @@ public class Main {
 		// get_Pairs(Gene[] genes_0)
 
 		////////////////////////////////
-		Pair[] pairs = Ops.get_Pairs_V_1_2_1(genes_0, CONS.Admin.INITIAL_NUM);
+		Pair[] pairs = Ops.get_Pairs_V_1_3_0(genes_0, CONS.Admin.INITIAL_NUM);
+//		Pair[] pairs = Ops.get_Pairs_V_1_2_1(genes_0, CONS.Admin.INITIAL_NUM);
 //		Pair[] pairs = Ops.get_Pairs_v4(genes_0, CONS.Admin.INITIAL_NUM);
 //		Pair pair = Ops.get_Pairs_v3(genes_0);
 //		Pair pair = Ops.get_Pairs(genes_0);
