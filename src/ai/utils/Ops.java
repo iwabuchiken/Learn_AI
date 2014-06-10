@@ -1,5 +1,8 @@
 package ai.utils;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -287,6 +290,104 @@ public class Ops {
 		return null;
 	}
 	
+	public static Pair[] get_Pairs_v4
+	(Gene[] genes, int num_of_pairs) {
+		// TODO Auto-generated method stub
+//		int[] pickArray = Ops.get_Pick_Array(genes);
+		
+		Pair[] pairs = new Pair[num_of_pairs];
+		
+		HashSet<TreeSet> pairId_set = Ops.get_PairIds_v2(genes, num_of_pairs);
+//		List<TreeSet> pairId_set = Ops.get_PairIds_v2(genes, num_of_pairs);
+		
+		String message = String.format("pairId_set.size() => %d", pairId_set.size());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+		
+//		////////////////////////////////
+//
+//		// Show: ids
+//
+//		////////////////////////////////
+//		int counter = 1;
+//		
+//		for (TreeSet tSet : pairId_set) {
+//			
+//			Object[] tSet_Array = tSet.toArray();
+//			
+//			message = String.format("pairId_set:%d => %d, %d", 
+//					counter, (int) tSet_Array[0], (int) tSet_Array[1]);
+//			
+//			Methods.message(message, Thread.currentThread().getStackTrace()[1]
+//					.getFileName(), Thread.currentThread().getStackTrace()[1]
+//							.getLineNumber());
+//			
+//			counter ++;
+//			
+//		}
+
+//		////////////////////////////////
+//		
+//		// Show: ids
+//		
+//		////////////////////////////////
+//		for (int i = 0; i < pairId_set.size(); i++) {
+//			
+//			TreeSet<Integer> s = pairId_set.get(i);
+//			
+//			Object[] s_Array = s.toArray();
+//			
+//			message = String.format("pairId_set.get(%d) => %d, %d", 
+//					i, (int) s_Array[0], (int) s_Array[1]);
+//			
+//			Methods.message(message, Thread.currentThread().getStackTrace()[1]
+//					.getFileName(), Thread.currentThread().getStackTrace()[1]
+//							.getLineNumber());
+//			
+//		}//for (int i = 0; i < pairId_set.size(); i++)
+//		
+		
+		////////////////////////////////
+		
+		// Get: sets
+		
+		////////////////////////////////
+//		Set<Integer> s1 = (Set<Integer>) pair_Ids[0];
+//		Set<Integer> s2 = (Set<Integer>) pair_Ids[1];
+//		
+//		Object[] ids_A = s1.toArray();
+//		Object[] ids_B = s2.toArray();
+//		
+//		////////////////////////////////
+//		
+//		// Get: genes
+//		
+//		////////////////////////////////
+//		Gene gA_A = genes[(int) ids_A[0]];
+//		Gene gA_B = genes[(int) ids_A[1]];
+//		
+//		Gene gB_A = genes[(int) ids_B[0]];
+//		Gene gB_B = genes[(int) ids_B[1]];
+//		
+//		////////////////////////////////
+//		
+//		// Set: pair
+//		
+//		////////////////////////////////
+//		Pair pA = new Pair();
+//		
+//		pA.setA(gA_A);
+//		pA.setB(gA_B);
+//		
+//		Pair pB = new Pair();
+//		
+//		pB.setA(gB_A);
+//		pB.setB(gB_B);
+		
+		return null;
+	}
+	
 	public static Pair get_Pairs_v2(Gene[] genes) {
 		// TODO Auto-generated method stub
 		int[] pickArray = Ops.get_Pick_Array(genes);
@@ -473,6 +574,66 @@ public class Ops {
 		
 		
 		return pairs;
+		
+	}//get_PairIds(Gene[] genes)
+	
+	public static HashSet<TreeSet>
+//	public static List<TreeSet>
+	get_PairIds_v2(Gene[] genes, int num_of_pairs) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		int[] pickArray = Ops.get_Pick_Array(genes);
+		
+		Random rn = new Random();
+		
+//		List<TreeSet> tSet = new ArrayList<TreeSet>();
+		HashSet<TreeSet> hSet = new HashSet<TreeSet>();
+		
+		int counter = 0;
+		
+		while(hSet.size() < num_of_pairs) {
+			
+			TreeSet<Integer> s = new TreeSet<Integer>();
+			
+			while(s.size() < 2) {
+				
+				s.add(pickArray[rn.nextInt(pickArray.length)]);
+				
+			}
+			
+			hSet.add(s);
+			
+			counter ++;
+			
+		}
+
+		String message = String.format("while iteration => %d", counter);
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+		
+		
+		return hSet;
+		
+//		while(tSet.size() < num_of_pairs) {
+//			
+//			TreeSet<Integer> s = new TreeSet<Integer>();
+//			
+//			while(s.size() < 2) {
+//				
+//				s.add(pickArray[rn.nextInt(pickArray.length)]);
+//				
+//			}
+//			
+//			tSet.add(s);
+//			
+//		}
+//		
+//		return tSet;
 		
 	}//get_PairIds(Gene[] genes)
 	
