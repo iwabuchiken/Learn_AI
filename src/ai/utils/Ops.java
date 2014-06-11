@@ -806,6 +806,63 @@ public class Ops {
 		
 	}
 	
+	public static void show_Pair(Pair pair) {
+		// TODO Auto-generated method stub
+		Gene gA = pair.getA();
+		Gene gB = pair.getB();
+		
+		StringBuilder sbA = new StringBuilder(100);
+		StringBuilder sbB = new StringBuilder(100);
+		
+		int j = 0;
+		for ( ; j < CONS.Admin.NUM_OF_BITS - 1; j++) {
+			
+			sbA.append(gA.getBits()[j]);
+			sbA.append(",");
+			
+			sbB.append(gB.getBits()[j]);
+			sbB.append(",");
+			
+		}
+		
+		sbA.append(gA.getBits()[j]);
+		sbB.append(gB.getBits()[j]);
+		
+		sbA.append(" : " + gA.getAdaptability());
+		sbB.append(" : " + gB.getAdaptability());
+		
+		
+		String message = String.format(
+				"pair: Gene.A.id = %d [prev: gen=%d,id=%d] (%s) / Gene.B.id = %d [prev: gen=%d,id=%d] (%s)", 
+				gA.getId(), gA.getPrevId()[0], gA.getPrevId()[1], sbA.toString(), 
+				gB.getId(), gB.getPrevId()[0], gB.getPrevId()[1], sbB.toString());
+		
+		Methods.message(message,
+				Thread.currentThread().getStackTrace()[1].getFileName(),
+				Thread.currentThread().getStackTrace()[1].getLineNumber());
+			
+//		Pair p = pairs[0];
+//		Gene g = p.getA();
+//		
+//		Pair p2 = pairs[2];
+//		Gene g2 = p2.getA();
+//		
+//		message = String.format(
+//						"pairs[0].getA().getId() => %d", 
+//						g.getId());
+//		Methods.message(message,
+//				Thread.currentThread().getStackTrace()[1].getFileName(),
+//				Thread.currentThread().getStackTrace()[1].getLineNumber());
+//		
+//		message = String.format(
+//				"pairs[2].getA().getId() => %d", 
+//				g2.getId());
+//		Methods.message(message,
+//				Thread.currentThread().getStackTrace()[1].getFileName(),
+//				Thread.currentThread().getStackTrace()[1].getLineNumber());
+		
+	}
+	
 	public static void show_Gene(Gene gene) {
 		// TODO Auto-generated method stub
 		
@@ -1358,5 +1415,49 @@ public class Ops {
 		return bitsList;
 		
 	}//crossOver
-	
+
+	public static Pair 
+	get_NewGenes_from_Pair(Pair pair) {
+		
+		////////////////////////////////
+
+		// prep: vars
+
+		////////////////////////////////
+		Gene gA = pair.getA();
+		Gene gB = pair.getB();
+		
+		int[] bitsA = gA.getBits();
+		int[] bitsB = gB.getBits();
+		
+		Object[] new_Bits = Ops.crossOver(bitsA, bitsB, 3);
+
+		////////////////////////////////
+
+		// ops
+
+		////////////////////////////////
+		Gene newA = new Gene.Builder()
+					.setAdaptability(Ops.get_Adapt_Value((int[]) new_Bits[0]))
+					.setBits((int[]) new_Bits[0])
+					.setGen(gA.getGen() + 1)
+					.setNum_of_bits(CONS.Admin.NUM_OF_BITS)
+					.setPrevId(new int[]{gA.getGen(), gA.getId()})
+					.build();
+		
+		Gene newB = new Gene.Builder()
+		.setAdaptability(Ops.get_Adapt_Value((int[]) new_Bits[1]))
+		.setBits((int[]) new_Bits[1])
+		.setGen(gB.getGen() + 1)
+		.setNum_of_bits(CONS.Admin.NUM_OF_BITS)
+		.setPrevId(new int[]{gB.getGen(), gB.getId()})
+		.build();
+		
+		Pair p_new = new Pair();
+		p_new.setA(newA);
+		p_new.setB(newB);
+		
+		return p_new;
+		
+	}
 }//public class Ops

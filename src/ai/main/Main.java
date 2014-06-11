@@ -74,23 +74,51 @@ public class Main {
 		
 		////////////////////////////////
 
-		// crossover
+		// pair: source
 
 		////////////////////////////////
 		Pair pair = pairs[0];
-		Gene gA = pair.getA();
-		Gene gB = pair.getB();
 		
 		//log
-		Ops.show_Gene(gA);
-		Ops.show_Gene(gB);
+		message = String.format("<pairs[0] : Before>");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		Ops.show_Pair(pair);
+
+		////////////////////////////////
+
+		// new pairs
+
+		////////////////////////////////
+		Pair pair_new = Ops.get_NewGenes_from_Pair(pair);
 		
-//		Object[] bitsList = Ops.crossOver(gA.getBits(), gB.getBits(), 2);
+		//log
+		message = String.format("<pairs[0] : Before>");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		Ops.show_Pair(pair_new);
 		
-		Object[] bitsList = Ops.crossOver(
-							new int[]{1,1,1,1,1,1}, 
-							new int[]{0,0,0,0,0,0}, 
-							2);
+//		Gene gA = pair.getA();
+//		Gene gB = pair.getB();
+//		
+//		//log
+//		Ops.show_Gene(gA);
+//		Ops.show_Gene(gB);
+		
+////		Object[] bitsList = Ops.crossOver(gA.getBits(), gB.getBits(), 2);
+//		
+//		Object[] bitsList = Ops.crossOver(
+//							new int[]{1,1,1,1,1,1}, 
+//							new int[]{0,0,0,0,0,0}, 
+//							2);
 		
 //		//test
 //		gA.setBits((int[])bitsList[0]);
@@ -104,7 +132,7 @@ public class Main {
 		// show: pairs
 
 		////////////////////////////////
-		Ops.show_Pairs(pairs);
+//		Ops.show_Pairs(pairs);
 		
 	}//private static void _D_2_V_2_0__CrossOver()
 
