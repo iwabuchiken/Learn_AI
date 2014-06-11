@@ -7,13 +7,16 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.math3.util.CombinatoricsUtils;
+
 import ai.classes.Gene;
 import ai.classes.Pair;
 
 public class Ops {
 
 	public static Gene[]
-	gen_Initial_Generation(int initialNum) {
+	gen_Initial_Generation
+	(int initialNum) {
 		// TODO Auto-generated method stub
 		Gene[] genes_0 = new Gene[initialNum];
 		
@@ -24,26 +27,33 @@ public class Ops {
 		////////////////////////////////
 		Random rn = new Random();
 		
-		for (int i = 0; i < genes_0.length; i++) {
+		
+		
+		int len = genes_0.length;
+		
+		for (int i = 0; i < len; i++) {
 			
-			/******************************
-				Initialize
-			 ******************************/
-			//REF array of class http://stackoverflow.com/questions/5364278/creating-an-array-of-objects-in-java answered Mar 19 '11 at 19:19
-			genes_0[i] = new Gene();
-
-			/******************************
-				Set: id
-			 ******************************/
-			genes_0[i].setId(i);
-//			genes_0[i].setId(i + 1);
+//			/******************************
+//				Initialize
+//			 ******************************/
+//			//REF array of class http://stackoverflow.com/questions/5364278/creating-an-array-of-objects-in-java answered Mar 19 '11 at 19:19
+//			genes_0[i] = new Gene();
+//
+//			/******************************
+//				Set: id
+//			 ******************************/
+//			genes_0[i].setId(i);
+////			genes_0[i].setId(i + 1);
 			
 			/******************************
 				Get: bits
 			 ******************************/
 			int[] bits = new int[CONS.Admin.NUM_OF_BITS];
 			
-			for (int j = 0; j < genes_0[i].getNum_of_bits(); j++) {
+			int len2 = CONS.Admin.NUM_OF_BITS;
+//			int len2 = genes_0[i].getNum_of_bits();
+			
+			for (int j = 0; j < len2; j++) {
 				
 //				int[] bits = new int[]{1,0,0,1,1,1};
 				
@@ -53,33 +63,41 @@ public class Ops {
 				
 			}
 			
-			genes_0[i].setBits(bits);
+			// 6 fields
+			genes_0[i] = new Gene.Builder()
+						.setBits(bits)
+//						.setAdaptability(Ops.get_Adapt_Value(genes_0[i].getBits()))
+						.setAdaptability(Ops.get_Adapt_Value(bits))
+						.setGen(0)
+						.setPrevId(new int[]{-1, -1})
+						.setNum_of_bits(CONS.Admin.NUM_OF_BITS)
+						.setId(i)
+						.build();
 			
-			/******************************
-				Adaptability
-			 ******************************/
-			genes_0[i].setAdaptability(Ops.get_Adapt_Value(genes_0[i].getBits()));
+//			genes_0[i].setAdaptability(Ops.get_Adapt_Value(genes_0[i].getBits()));
 			
-		}
-		
-//		String message = "genes_0.length = " + genes_0.length;
-//		Methods.message(message,
-//				Thread.currentThread().getStackTrace()[1].getFileName(), Thread
-//						.currentThread().getStackTrace()[1].getLineNumber());
-//		
-//		message = "gen_0[0] = " + genes_0[0];
-//		Methods.message(message, Thread.currentThread().getStackTrace()[1]
-//				.getFileName(), Thread.currentThread().getStackTrace()[1]
-//				.getLineNumber());
-		
-		for (int i = 0; i < genes_0.length; i++) {
-			
-			genes_0[i].setGen(0);
+//			genes_0[i].setBits(bits);
+//			
+//			/******************************
+//				Adaptability
+//			 ******************************/
+//			genes_0[i].setAdaptability(Ops.get_Adapt_Value(genes_0[i].getBits()));
+//			
+//			/******************************
+//				generation number
+//			 ******************************/
+//			genes_0[i].setGen(0);
+//			
+//			/******************************
+//				message
+//			 ******************************/
+//			genes_0[i].setPrevId(new int[]{-1, -1});
 			
 		}
 		
 		return genes_0;
-	}
+		
+	}//gen_Initial_Generation
 
 	public static int
 	get_Adapt_Value(int[] bits)
@@ -528,6 +546,8 @@ public class Ops {
 				.getFileName(), Thread.currentThread().getStackTrace()[1]
 						.getLineNumber());
 		
+		message = null;
+		
 		////////////////////////////////
 		
 		// Show: ids
@@ -564,6 +584,8 @@ public class Ops {
 					Thread.currentThread().getStackTrace()[1].getFileName(),
 					Thread.currentThread().getStackTrace()[1].getLineNumber());
 			
+			message = null;
+			
 			Ops.show_Pairs(pairs);
 			
 //			Pair p = pairs[0];
@@ -595,6 +617,8 @@ public class Ops {
 					Thread.currentThread().getStackTrace()[1].getFileName(),
 					Thread.currentThread().getStackTrace()[1].getLineNumber());
 
+			message = null;
+			
 		}
 		
 		
@@ -683,18 +707,54 @@ public class Ops {
 		
 	}//get_Pairs_V_1_3_0
 	
-	private static void show_Pairs(Pair[] pairs) {
+	public static Pair[]
+	get_Pairs_V_2_0
+	(Gene[] genes, int numOfPairs) {
+		
+		/******************************
+			validate
+		 ******************************/
+		double res = CombinatoricsUtils.binomialCoefficientDouble(genes.length, 2);
+		
+		if ((int) res < numOfPairs) {
+			
+			numOfPairs = (int) res;
+			
+		}
+		
+		String message = String.format("res = %f", res);
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		
+		
+		List<TreeSet> pairId_set = Ops.get_PairIds_V_1_2_1(genes, numOfPairs);
+		
+		////////////////////////////////
+		
+		// Pairs
+		
+		////////////////////////////////
+		return Ops.build_Pairs_From_PairIds_V_1_3_0(genes, pairId_set);
+		
+	}//get_Pairs_V_2_0
+	
+	public static void show_Pairs(Pair[] pairs) {
 		// TODO Auto-generated method stub
 		int len = pairs.length;
 		
-		for (int i = 0; i < pairs.length; i++) {
+		for (int i = 0; i < len; i++) {
+//			for (int i = 0; i < pairs.length; i++) {
 			
 			Pair p = pairs[i];
 			Gene gA = p.getA();
 			Gene gB = p.getB();
 
-			StringBuilder sbA = new StringBuilder();
-			StringBuilder sbB = new StringBuilder();
+			StringBuilder sbA = new StringBuilder(100);
+			StringBuilder sbB = new StringBuilder(100);
 			
 			int j = 0;
 			for ( ; j < CONS.Admin.NUM_OF_BITS - 1; j++) {
@@ -1010,7 +1070,7 @@ public class Ops {
 		Random rn = new Random();
 		
 //		List<TreeSet> tSet = new ArrayList<TreeSet>();
-		List<TreeSet> list = new ArrayList<TreeSet>();
+		List<TreeSet> list = new ArrayList<TreeSet>(num_of_pairs);
 		
 		int counter = 0;
 		
@@ -1066,7 +1126,9 @@ public class Ops {
 		
 		Pair[] pairs = new Pair[pairId_set.size()];
 		
-		for (int i = 0; i < pairId_set.size(); i++) {
+		int size = pairId_set.size();
+		
+		for (int i = 0; i < size; i++) {
 			
 			TreeSet<Integer> s = pairId_set.get(i);
 			
@@ -1082,9 +1144,26 @@ public class Ops {
 			
 		}
 		
-		
-		
 		return pairs;
 		
+	}//build_Pairs_From_PairIds_V_1_3_0
+	
+	public static float
+	get_Generation_Adaptability(Gene[] genes) {
+	
+		int sumOfAdaptability = 0;
+		
+		int len = genes.length;
+		
+		for (int i = 0; i < len; i++) {
+			
+			sumOfAdaptability += genes[i].getAdaptability();
+			
+		}
+		
+		
+		return len > 0 ? ((float)sumOfAdaptability / len) : -1;
+		
 	}
+	
 }//public class Ops
