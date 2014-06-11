@@ -805,6 +805,114 @@ public class Ops {
 //				Thread.currentThread().getStackTrace()[1].getLineNumber());
 		
 	}
+	
+	public static void show_Gene(Gene gene) {
+		// TODO Auto-generated method stub
+		
+		int bitLen = gene.getNum_of_bits();
+		
+		int i = 0;
+		int[] bits = gene.getBits();
+		
+		StringBuilder sb = new StringBuilder(20);
+		
+		for (; i < bitLen - 1; i++) {
+//			for (int i = 0; i < pairs.length; i++) {
+
+			sb.append(bits[i]);
+			sb.append(",");
+			
+		}
+
+		sb.append(bits[i]);
+		
+		////////////////////////////////
+
+		// build: whole text
+
+		////////////////////////////////
+		String text = String.format(
+						"Gene (gen=%d:id=%d) [%s]", 
+						gene.getGen(), gene.getId(), sb.toString());
+		
+		sb.delete(0, sb.length());
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		Methods.message(text, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		text = null;
+
+		
+		
+//		Pair p = pairs[0];
+//		Gene g = p.getA();
+//		
+//		Pair p2 = pairs[2];
+//		Gene g2 = p2.getA();
+//		
+//		message = String.format(
+//						"pairs[0].getA().getId() => %d", 
+//						g.getId());
+//		Methods.message(message,
+//				Thread.currentThread().getStackTrace()[1].getFileName(),
+//				Thread.currentThread().getStackTrace()[1].getLineNumber());
+//		
+//		message = String.format(
+//				"pairs[2].getA().getId() => %d", 
+//				g2.getId());
+//		Methods.message(message,
+//				Thread.currentThread().getStackTrace()[1].getFileName(),
+//				Thread.currentThread().getStackTrace()[1].getLineNumber());
+		
+	}
+	
+	public static void show_Bits(int[] bits) {
+		// TODO Auto-generated method stub
+		
+		int bitLen = bits.length;
+		
+		int i = 0;
+		
+		StringBuilder sb = new StringBuilder(20);
+		
+		for (; i < bitLen - 1; i++) {
+//			for (int i = 0; i < pairs.length; i++) {
+			
+			sb.append(bits[i]);
+			sb.append(",");
+			
+		}
+		
+		sb.append(bits[i]);
+		
+		////////////////////////////////
+		
+		// build: whole text
+		
+		////////////////////////////////
+		String text = String.format(
+				"bits => [%s]", sb.toString());
+		
+		sb.delete(0, sb.length());
+		
+		////////////////////////////////
+		
+		// show
+		
+		////////////////////////////////
+		Methods.message(text, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+						.getLineNumber());
+		
+		text = null;
+		
+	}
 
 	public static Pair get_Pairs_v2(Gene[] genes) {
 		// TODO Auto-generated method stub
@@ -1165,5 +1273,90 @@ public class Ops {
 		return len > 0 ? ((float)sumOfAdaptability / len) : -1;
 		
 	}
+
+	public static Object[]
+//	public static List<Integer[]>
+	crossOver
+	(int[] bitsA, int[] bitsB, int point) {
+		
+//		List<Integer[]> list = new ArrayList<Integer[]>();
+		Object[] bitsList = new Object[2];
+		
+//		//log
+//		String message = String.format("<Before CO>");
+//		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+//				.getFileName(), Thread.currentThread().getStackTrace()[1]
+//				.getLineNumber());
+//
+//		message = null;
+//
+//		
+//		Ops.show_Bits(bitsA);
+//		Ops.show_Bits(bitsB);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (point > bitsA.length - 2) {
+			
+			String message = String.format("Crossing point => beyond the size");
+			Methods.message(message,
+					Thread.currentThread().getStackTrace()[1].getFileName(),
+					Thread.currentThread().getStackTrace()[1].getLineNumber());
+
+			message = null;
+
+			bitsList[0] = bitsA;
+			bitsList[1] = bitsA;
+			
+			return bitsList;
+			
+//			list.add(bitsA);
+		}
+		
+		
+		
+		////////////////////////////////
+
+		// crossover
+
+		////////////////////////////////
+		int[] bitsA_new = new int[bitsA.length];
+		int[] bitsB_new = new int[bitsB.length];
+		
+		System.arraycopy(bitsA, 0, bitsA_new, 0, point);
+		System.arraycopy(
+//					bitsB, point + 1, 
+					bitsB, point, 
+					bitsA_new, point, 
+//					bitsA_new, point + 1, 
+					(bitsA.length) - point);
+		
+		System.arraycopy(bitsB, 0, bitsB_new, 0, point);
+		System.arraycopy(
+//					bitsA, point + 1, 
+					bitsA, point, 
+					bitsB_new, point, 
+					(bitsB.length) - point);
+//		bitsB.length - 1);
+		
+		bitsList[0] = bitsA_new;
+		bitsList[1] = bitsB_new;
+		
+//		//log
+//		message = String.format("<After CO>");
+//		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+//				.getFileName(), Thread.currentThread().getStackTrace()[1]
+//				.getLineNumber());
+//
+//		message = null;
+//
+//
+//		Ops.show_Bits(bitsA_new);
+//		Ops.show_Bits(bitsB_new);
+//		
+		return bitsList;
+		
+	}//crossOver
 	
 }//public class Ops

@@ -1,6 +1,7 @@
 package ai.main;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeSet;
 
 import ai.classes.Gene;
@@ -43,14 +44,6 @@ public class Main {
 		// Gen: generation
 
 		////////////////////////////////
-//		Generation gen_0 = new Generation();
-//		
-//		// Set genes to the generation
-//		gen_0.setMembers(genes_0);
-//		
-//		// Set the number of genes
-//		gen_0.setNum_of_members(CONS.Admin.INITIAL_GENE_NUM);
-
 		Generation gen_0 = new Generation.Builder()
 						.setGenId(0)
 						.setMembers(genes_0)
@@ -78,6 +71,33 @@ public class Main {
 
 		////////////////////////////////
 		Pair[] pairs = Ops.get_Pairs_V_2_0(genes_0, CONS.Admin.NUM_OF_PAIRS);
+		
+		////////////////////////////////
+
+		// crossover
+
+		////////////////////////////////
+		Pair pair = pairs[0];
+		Gene gA = pair.getA();
+		Gene gB = pair.getB();
+		
+		//log
+		Ops.show_Gene(gA);
+		Ops.show_Gene(gB);
+		
+//		Object[] bitsList = Ops.crossOver(gA.getBits(), gB.getBits(), 2);
+		
+		Object[] bitsList = Ops.crossOver(
+							new int[]{1,1,1,1,1,1}, 
+							new int[]{0,0,0,0,0,0}, 
+							2);
+		
+//		//test
+//		gA.setBits((int[])bitsList[0]);
+//		gB.setBits((int[])bitsList[1]);
+//		
+//		Ops.show_Gene(gA);
+//		Ops.show_Gene(gB);
 		
 		////////////////////////////////
 
