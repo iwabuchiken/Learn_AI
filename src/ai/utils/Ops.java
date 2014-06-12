@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import ai.classes.Gene;
+import ai.classes.Generation;
 import ai.classes.Pair;
 
 public class Ops {
@@ -271,7 +272,8 @@ public class Ops {
 		the number of pairs generated will be modified to<br>
 		the maximum number derived from the number of the genes
 	 ******************************/
-	public static Pair[]
+	public static List<Pair>
+//			public static Pair[]
 	get_Pairs_V_2_0
 	(List<Gene> list, int numOfPairs) {
 		
@@ -584,11 +586,13 @@ public class Ops {
 		
 	}//get_PairIds(Gene[] genes)
 
-	public static Pair[]
+	public static List<Pair>
 	build_Pairs_From_PairIds_V_1_3_0
 	(List<Gene> list, List<TreeSet> pairId_set) {
 		
-		Pair[] pairs = new Pair[pairId_set.size()];
+		List<Pair> pairs = new ArrayList<Pair>();
+//		Pair[] pairs = new Pair[pairId_set.size()];
+//		Pair[] pairs = new Pair[pairId_set.size()];
 		
 		int size = pairId_set.size();
 		
@@ -603,10 +607,16 @@ public class Ops {
 //			Gene gA = list[(int) id_Ary[0]];
 //			Gene gB = list[(int) id_Ary[1]];
 			
-			pairs[i] = new Pair();
+			Pair pair = new Pair();
+//			pairs[i] = new Pair();
 			
-			pairs[i].setA(gA);
-			pairs[i].setB(gB);
+			pair.setA(gA);
+			pair.setB(gB);
+			
+//			pairs[i].setA(gA);
+//			pairs[i].setB(gB);
+			
+			pairs.add(pair);
 			
 		}
 		
@@ -768,4 +778,36 @@ public class Ops {
 		return p_new;
 		
 	}
+
+	public static Generation
+	get_Generation_from_Generation
+	(Generation gen_fore) {
+		// TODO Auto-generated method stub
+		
+		Generation gen_off = new Generation.Builder()
+							.setGenId(gen_fore.getGenId() + 1)
+							.build();
+		
+		List<Pair> pairs_fore = Ops.get_Pairs_V_2_0(
+						gen_fore.getMembers(), CONS.Admin.NUM_OF_PAIRS);
+		
+		List<Gene> genes_off = new ArrayList<Gene>();
+		
+		for (Pair pair_fore : pairs_fore) {
+			
+			Pair pair_off = Ops.get_NewGenes_from_Pair(pair_fore);
+			
+			genes_off.add(pair_off.getA());
+			genes_off.add(pair_off.getB());
+			
+		}
+
+		gen_off.setMembers(genes_off);
+		gen_off.setNum_of_members(genes_off.size());
+		gen_off.setAvgAdapt(Ops.get_Generation_Adaptability(gen_off.getMembers()));
+
+		return gen_off;
+		
+	}//get_Generation_from_Generation
+	
 }//public class Ops
