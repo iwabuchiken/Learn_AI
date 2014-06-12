@@ -1,10 +1,13 @@
 package ai.classes;
 
+import java.util.List;
+
 public class Generation {
 
 	int		num_of_members;		// number of members in a generation
 	
-	Gene[]	members;
+	List<Gene>	members;
+//	Gene[]	members;
 
 	float	avgAdapt;
 	
@@ -44,11 +47,11 @@ public class Generation {
 		this.num_of_members = num_of_members;
 	}
 
-	public Gene[] getMembers() {
+	public List<Gene> getMembers() {
 		return members;
 	}
 	
-	public void setMembers(Gene[] members) {
+	public void setMembers(List<Gene> members) {
 		this.members = members;
 	}
 
@@ -79,7 +82,7 @@ public class Generation {
 
 		int		num_of_members;		// number of members in a generation
 		
-		Gene[]	members;
+		List<Gene>	members;
 
 		float	avgAdapt;
 		
@@ -105,7 +108,7 @@ public class Generation {
 			return num_of_members;
 		}
 
-		public Gene[] getMembers() {
+		public List<Gene> getMembers() {
 			return members;
 		}
 
@@ -121,7 +124,7 @@ public class Generation {
 			this.num_of_members = num_of_members; return this;
 		}
 
-		public Builder setMembers(Gene[] members) {
+		public Builder setMembers(List<Gene> members) {
 			this.members = members; return this;
 		}
 
