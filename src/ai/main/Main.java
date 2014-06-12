@@ -1,6 +1,8 @@
 package ai.main;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeSet;
 
 import ai.classes.Gene;
@@ -15,7 +17,10 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		_D_2_v_1__Test_Sets();
+		_D_2_V_2_4__GetGeneration_from_Generation();
+//		_D_2_V_2_3__GetParis_from_Pairs();
+//		_D_2_V_2_0__CrossOver();
+//		_D_2_v_1__Test_Sets();
 		
 //		_D_1_v_1_Initial_Operations();
 		
@@ -25,125 +30,270 @@ public class Main {
 					Thread.currentThread().getStackTrace()[1].getFileName(),
 					Thread.currentThread().getStackTrace()[1].getLineNumber());
 		
-		Methods.write_Log(message,
-					Thread.currentThread().getStackTrace()[1].getFileName(),
-					Thread.currentThread().getStackTrace()[1].getLineNumber());
-		
 	}
 
-	private static void _D_2_v_1__Test_Sets() {
+	private static void
+	_D_2_V_2_4__GetGeneration_from_Generation() {
 		// TODO Auto-generated method stub
 		////////////////////////////////
 
-		// vars
+		// Get: initial generation
 
 		////////////////////////////////
-//		int initial_Num = 10;
-		int initial_Num = CONS.Admin.INITIAL_NUM;
+		Generation gen_0 = new Generation.Builder()
+					.setGenId(0)
+					.setMembers(Ops.gen_Initial_Generation(CONS.Admin.INITIAL_GENE_NUM))
+					.setNum_of_members(CONS.Admin.INITIAL_GENE_NUM)
+					.build();
 		
-		////////////////////////////////
-
-		// Generate: Genes
-
-		////////////////////////////////
-//		Gene[] genes_0 = new Gene[CONS.Admin.INITIAL_NUM];
-		Gene[] genes_0 = Ops.gen_Initial_Generation(initial_Num);
+		gen_0.setAvgAdapt(Ops.get_Generation_Adaptability(gen_0.getMembers()));
 		
-		Generation gen_0 = new Generation();
-		
-		gen_0.setMembers(genes_0);
-		
-		gen_0.setNum_of_members(initial_Num);
-		
-		//=========================================== 2
-		////////////////////////////////
-
-		// get_Pairs(Gene[] genes_0)
-
-		////////////////////////////////
-		Pair[] pairs = Ops.get_Pairs_V_1_3_0(genes_0, CONS.Admin.INITIAL_NUM);
-//		Pair[] pairs = Ops.get_Pairs_V_1_2_1(genes_0, CONS.Admin.INITIAL_NUM);
-//		Pair[] pairs = Ops.get_Pairs_v4(genes_0, CONS.Admin.INITIAL_NUM);
-//		Pair pair = Ops.get_Pairs_v3(genes_0);
-//		Pair pair = Ops.get_Pairs(genes_0);
-
-				
-		
-	}
-
-	private static void _D_1_v_1_Initial_Operations() {
-		// TODO Auto-generated method stub
-		
-		////////////////////////////////
-
-		// vars
-
-		////////////////////////////////
-//		int initial_Num = 10;
-		int initial_Num = CONS.Admin.INITIAL_NUM;
-		
-		String message = "initial_Num = " + initial_Num;
-		Methods.message(message,
-				Thread.currentThread().getStackTrace()[1].getFileName(), Thread
-						.currentThread().getStackTrace()[1].getLineNumber());
-		
-		////////////////////////////////
-
-		// Generate: Genes
-
-		////////////////////////////////
-//		Gene[] genes_0 = new Gene[CONS.Admin.INITIAL_NUM];
-		Gene[] genes_0 = Ops.gen_Initial_Generation(initial_Num);
-		
-		Generation gen_0 = new Generation();
-		
-		gen_0.setMembers(genes_0);
-		
-		gen_0.setNum_of_members(initial_Num);
-		
-		message = "gen_0[0] = " + genes_0[0];
+		String message = String.format("gen_0.getAvgAdapt() => %f", gen_0.getAvgAdapt());
 		Methods.message(message, Thread.currentThread().getStackTrace()[1]
 				.getFileName(), Thread.currentThread().getStackTrace()[1]
 				.getLineNumber());
 
-		////////////////////////////////
+		message = null;
 
-		// Get: adaptability values
+		message = String.format("======= Gen: 1 =============");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
 
-		////////////////////////////////
-//		for (int i = 0; i < genes_0.length; i++) {
-//			
-//			genes_0[i].setAdaptability(Ops.get_Adapt_Value(genes_0[i].getBits()));
-//			
-//		}
-		
-		////////////////////////////////
-
-		// report
-
-		////////////////////////////////
-		_report(genes_0);
-		
-		//=========================================== 2
-		////////////////////////////////
-
-		// Get: int array for random pair picking
-
-		////////////////////////////////
-		int[] pickArray = Ops.get_Pick_Array(genes_0);
-		
-		_report_Pick_Array(pickArray);
-		
-		////////////////////////////////
-
-		// get_Pairs(Gene[] genes_0)
-
-		////////////////////////////////
-		Pair pair = Ops.get_Pairs(genes_0);
+		message = null;
 
 		
 		
-	}
+		////////////////////////////////
+
+		// get: pairs
+
+		////////////////////////////////
+		List<Pair> pairs_0 = Ops.get_Pairs_V_2_0(gen_0.getMembers(), CONS.Admin.NUM_OF_PAIRS);
+//		Pair[] pairs_0 = Ops.get_Pairs_V_2_0(gen_0.getMembers(), CONS.Admin.NUM_OF_PAIRS);
+		
+		////////////////////////////////
+
+		// get: new generation: 1
+
+		////////////////////////////////
+		Generation gen_1 = new Generation.Builder()
+					.setGenId(1)
+					.build();
+
+		List<Gene> genes_1 = new ArrayList<Gene>();
+		
+		for (Pair pair_fore : pairs_0) {
+			
+			Pair pair_off = Ops.get_NewGenes_from_Pair(pair_fore);
+			
+			genes_1.add(pair_off.getA());
+			genes_1.add(pair_off.getB());
+			
+		}
+
+		gen_1.setMembers(genes_1);
+		gen_1.setNum_of_members(genes_1.size());
+		gen_1.setAvgAdapt(Ops.get_Generation_Adaptability(gen_1.getMembers()));
+		
+		message = String.format("gen_1.getAvgAdapt() => %f", gen_1.getAvgAdapt());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		////////////////////////////////
+
+		// get: new generation: 2
+
+		////////////////////////////////
+		message = String.format("======= Gen: 2 =============");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		Generation gen_2 = Ops.get_Generation_from_Generation(gen_1);
+
+		message = String.format("gen_2.getAvgAdapt() => %f", gen_2.getAvgAdapt());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+		
+		////////////////////////////////
+		
+		// get: new generation: 3
+		
+		////////////////////////////////
+		message = String.format("======= Gen: 3 =============");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+						.getLineNumber());
+		
+		message = null;
+		
+		Generation gen_3 = Ops.get_Generation_from_Generation(gen_2);
+		
+		message = String.format("gen_3.getAvgAdapt() => %f", gen_3.getAvgAdapt());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+						.getLineNumber());
+		
+		message = null;
+		
+	}//_D_2_V_2_4__GetGeneration_from_Generation()
+	
+	private static void
+	_D_2_V_2_3__GetParis_from_Pairs() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// Get: initial generation
+		
+		////////////////////////////////
+		Generation gen_0 = new Generation.Builder()
+		.setGenId(0)
+		.setMembers(Ops.gen_Initial_Generation(CONS.Admin.INITIAL_GENE_NUM))
+		.setNum_of_members(CONS.Admin.INITIAL_GENE_NUM)
+		.build();
+		
+		gen_0.setAvgAdapt(Ops.get_Generation_Adaptability(gen_0.getMembers()));
+		
+		String message = String.format("gen_0.getAvgAdapt() => %f", gen_0.getAvgAdapt());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+						.getLineNumber());
+		
+		message = null;
+		
+		
+		
+		////////////////////////////////
+		
+		// get: pairs
+		
+		////////////////////////////////
+		
+		List<Pair> pairs_0 = Ops.get_Pairs_V_2_0(gen_0.getMembers(), CONS.Admin.NUM_OF_PAIRS);
+		
+		////////////////////////////////
+		
+		// get: new generation
+		
+		////////////////////////////////
+		Generation gen_1 = new Generation.Builder()
+		.setGenId(1)
+		.build();
+		
+		List<Gene> genes_1 = new ArrayList<Gene>();
+		
+		for (Pair pair_fore : pairs_0) {
+			
+			Pair pair_off = Ops.get_NewGenes_from_Pair(pair_fore);
+			
+			genes_1.add(pair_off.getA());
+			genes_1.add(pair_off.getB());
+			
+		}
+		
+		gen_1.setMembers(genes_1);
+		gen_1.setNum_of_members(genes_1.size());
+		gen_1.setAvgAdapt(Ops.get_Generation_Adaptability(gen_1.getMembers()));
+		
+		message = String.format("gen_1.getAvgAdapt() => %f", gen_1.getAvgAdapt());
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+						.getLineNumber());
+		
+		message = null;
+		
+		
+	}//_D_2_V_2_3__GetParis_from_Pairs
+
+	private static void _D_2_V_2_0__CrossOver() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// Generation: first
+
+		////////////////////////////////
+//		Gene[] genes_0 = new Gene[CONS.Admin.INITIAL_NUM];
+//		Gene[] genes_0 = Ops.gen_Initial_Generation(CONS.Admin.INITIAL_GENE_NUM);
+		List<Gene> genes_0 = Ops.gen_Initial_Generation(CONS.Admin.INITIAL_GENE_NUM);
+
+		////////////////////////////////
+
+		// Gen: generation
+
+		////////////////////////////////
+		Generation gen_0 = new Generation.Builder()
+						.setGenId(0)
+						.setMembers(genes_0)
+						.setNum_of_members(CONS.Admin.INITIAL_GENE_NUM)
+						.build();
+		
+		gen_0.setAvgAdapt(Ops.get_Generation_Adaptability(gen_0.getMembers()));
+		
+		String message = String.format(
+						"generation adaptability => %f", 
+						gen_0.getAvgAdapt());
+//		Ops.get_Generation_Adaptability(genes_0));
+		
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		
+		
+		////////////////////////////////
+
+		// Get: paris from the genes
+
+		////////////////////////////////
+		List<Pair> pairs = Ops.get_Pairs_V_2_0(genes_0, CONS.Admin.NUM_OF_PAIRS);
+		
+		////////////////////////////////
+
+		// pair: source
+
+		////////////////////////////////
+		Pair pair = pairs.get(0);
+//		Pair pair = pairs[0];
+		
+		//log
+		message = String.format("<pairs[0] : Before>");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		Ops.show_Pair(pair);
+
+		////////////////////////////////
+
+		// new pairs
+
+		////////////////////////////////
+		Pair pair_new = Ops.get_NewGenes_from_Pair(pair);
+		
+		//log
+		message = String.format("<pairs[0] : Before>");
+		Methods.message(message, Thread.currentThread().getStackTrace()[1]
+				.getFileName(), Thread.currentThread().getStackTrace()[1]
+				.getLineNumber());
+
+		message = null;
+
+		Ops.show_Pair(pair_new);
+		
+	}//private static void _D_2_V_2_0__CrossOver()
 
 	private static void _report_Pick_Array(int[] pickArray) {
 		// TODO Auto-generated method stub
