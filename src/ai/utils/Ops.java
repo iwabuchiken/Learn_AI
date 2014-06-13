@@ -1,6 +1,7 @@
 package ai.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -809,5 +810,60 @@ public class Ops {
 		return gen_off;
 		
 	}//get_Generation_from_Generation
+
+	public static void
+	show_Generation(Generation generation) {
+		// TODO Auto-generated method stub
+
+		List<Gene> genes = generation.getMembers();
+		
+		for (Gene gene : genes) {
+			
+			Ops.show_Gene(gene);
+			
+		}
+		
+	}
+
+	public static List<Generation>
+	get_Generations
+	(Generation gen_Src, int numOfGens, int startGen) {
+		// TODO Auto-generated method stub
+		
+		Generation gen_Fore = gen_Src;
+		
+		List<Generation> gens = new ArrayList<Generation>();
+		
+		for (int i = startGen; i < startGen + numOfGens; i++) {
+			
+			String message = String.format("======= Gen: %d =============", i);
+			Methods.message(message, Thread.currentThread().getStackTrace()[1]
+					.getFileName(), Thread.currentThread().getStackTrace()[1]
+					.getLineNumber());
+
+			message = null;
+
+			Generation gen_Off = Ops.get_Generation_from_Generation(gen_Fore);
+
+			message = String.format(
+							"gen %d: getAvgAdapt() => %f", 
+							i, gen_Off.getAvgAdapt());
+			
+			Methods.message(message, Thread.currentThread().getStackTrace()[1]
+					.getFileName(), Thread.currentThread().getStackTrace()[1]
+					.getLineNumber());
+
+			message = null;
+			
+			gens.add(gen_Off);
+			
+			gen_Fore = gen_Off;
+
+		}
+		
+		
+		return gens;
+		
+	}//get_Generations
 	
 }//public class Ops
