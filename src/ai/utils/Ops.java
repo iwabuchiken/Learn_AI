@@ -809,5 +809,19 @@ public class Ops {
 		return gen_off;
 		
 	}//get_Generation_from_Generation
+
+	public static void
+	show_Generation(Generation generation) {
+		// TODO Auto-generated method stub
+
+		List<Gene> genes = generation.getMembers();
+		
+		for (Gene gene : genes) {
+			
+			Ops.show_Gene(gene);
+			
+		}
+		
+	}
 	
 }//public class Ops
